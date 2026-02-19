@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projeto Semana 1</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <main class="tela-central">
+        <h1>Bem Vindo</h1>
+
+        <form action="#" method="POST">
+            
+            <div class="campo-texto">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+            </div>
+
+            <div class="campo-texto">
+                <label for="password">Senha</label>
+                <input type="password" id="password" name="password" placeholder="******" required>
+            </div>
+
+            <div class="campo-selecao">
+                <input type="checkbox" id="terms" name="terms" required>
+                <label for="terms">
+                    Declaro que tenho ciência das diretrizes de uso da aplicação.
+                </label>
+            </div>
+
+            <div class="area-botao">
+                <button class="botao-animado" type="submit">
+                    Login
+                    <span class="fundo-botao">
+                        <span class="grupo-bolhas">
+                            <span class="bolha"></span>
+                            <span class="bolha"></span>
+                            <span class="bolha"></span>
+                            <span class="bolha"></span>
+                        </span>
+                    </span>
+                </button>
+            </div>
+        </form>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Todos os direitos reservados.</p>
+        <p>Samuel, Eagle Telecom.</p>
+    </footer>
+
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="display: block; height: 0; width: 0; overflow: hidden;">
+        <defs>
+            <filter id="filtro-gosma">
+                <feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="10"></feGaussianBlur>
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 21 -7" result="goo"></feColorMatrix>
+                <feBlend in2="goo" in="SourceGraphic" result="mix"></feBlend>
+            </filter>
+        </defs>
+    </svg>
+
+</body>
+</html>

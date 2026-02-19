@@ -1,0 +1,228 @@
+/* Interface Geral*/
+*, *:before, *:after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    outline: none;
+}
+
+body {
+    background: linear-gradient(135deg, #02021E 0%, #0505A9 100%);
+    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+    height: 100vh; /* Altura total da tela */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    padding: 20px;
+}
+
+/* Campo Login*/
+.tela-central {
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+    text-align: center;
+    color: #333;
+}
+
+.tela-central h1 {
+    color: #0505A9;
+    margin-bottom: 30px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 30px;
+}
+
+/* =========================================
+   3. INPUT Email e Senha
+   ========================================= */
+.campo-texto {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.campo-texto label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.campo-texto input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.campo-texto input:focus {
+    border-color: #0505A9;
+}
+
+/* =========================================
+   4. CHECKBOX Termos de Uso*/
+.campo-selecao {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 30px;
+    font-size: 0.85rem;
+    color: #666;
+    text-align: left;
+}
+
+.campo-selecao input {
+    margin-top: 3px;
+}
+
+/*BOTÃO ANIMADO (ESTRUTURA E EFEITOS) - O botão foi copiado da web. Como ele estava na linguagem SCSS, pedi para que a IA
+convertesse sua linguagem para CSS. https://www.brasilcode.com.br/35-botoes-css-com-animacao/*/
+
+/* Container do botão */
+.area-botao {
+    margin-top: 20px;
+    text-align: center;
+    width: 100%;
+}
+
+/* O Botão em si */
+.botao-animado {
+    z-index: 1;
+    position: relative;
+    padding: 20px 46px;
+    margin-bottom: 20px;
+    width: 100%;
+    
+    /* Tipografia e cores */
+    color: #0505A9;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    
+    /* Estilo base */
+    background-color: transparent;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: color 0.5s;
+}
+
+/* Borda Externa Fixa */
+.botao-animado:before {
+    content: "";
+    z-index: 1;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    border: 2px solid #0505A9;
+    border-radius: 30px;
+}
+
+/* Sombra Sólida (que se move no hover) */
+.botao-animado:after {
+    content: "";
+    z-index: -2;
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    width: 100%;
+    height: 100%;
+    border-radius: 30px;
+    transition: all 0.3s 0.2s;
+}
+
+/* Comportamento Hover do Botão */
+.botao-animado:hover {
+    color: #FFFFFF;
+    border-radius: 30px;
+}
+
+.botao-animado:hover:after {
+    transition: all 0.3s;
+    left: 0;
+    top: 0;
+    border-radius: 30px;
+}
+
+/* Camada interna branca (máscara) */
+.fundo-botao {
+    z-index: -1;
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 30px;
+    background: #ffffff;
+}
+
+/* Grupo onde o filtro "Gooey" é aplicado */
+.grupo-bolhas {
+    position: relative;
+    display: block;
+    height: 100%;
+    filter: url('#filtro-gosma');
+}
+
+/* A Bolha individual */
+.bolha {
+    position: absolute;
+    top: 2px;
+    width: 25%;
+    height: 100%;
+    background: #0505A9;
+    border-radius: 100%;
+    transform: translate3d(0, 150%, 0) scale(1.7);
+    transition: transform 0.45s;
+}
+
+/* Animação Hover das Bolhas */
+.botao-animado:hover .bolha {
+    transform: translateZ(0) scale(1.7);
+}
+
+/* Suporte específico para navegadores com filtro SVG */
+@supports(filter: url('#filtro-gosma')) {
+    .bolha { transform: translate3d(0, 150%, 0) scale(1.4); }
+    .botao-animado:hover .bolha { transform: translateZ(0) scale(1.4); }
+}
+
+/* Atrasos individuais para criar o efeito de onda */
+.bolha:nth-child(1) { left: 0%; transition-delay: 0s; }
+.bolha:nth-child(2) { left: 30%; transition-delay: 0.08s; }
+.bolha:nth-child(3) { left: 60%; transition-delay: 0.16s; }
+.bolha:nth-child(4) { left: 90%; transition-delay: 0.24s; }
+
+/* =========================================
+   6. RODAPÉ E RESPONSIVIDADE
+   ========================================= */
+footer {
+    margin-top: auto;
+    padding-top: 20px;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+}
+
+@media (max-width: 480px) {
+    .tela-central {
+        padding: 30px 20px;
+        width: 95%;
+    }
+    .botao-animado {
+        padding: 15px 20px;
+        font-size: 14px;
+    }
+}
