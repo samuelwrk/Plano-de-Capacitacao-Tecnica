@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portifólio de Jogos</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="cabecalho">
+        <nav class="barra-nav">
+            <div class="logotipo">Portfólio de Jogos</div>
+            <ul class="links-nav">
+                <li><a href="#carrossel">Início</a></li>
+                <li><a href="#secao-jogos">Jogos</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="carrossel" class="destaque">
+        <div class="caixa-carrossel">
+            <button class="btn-carrossel btn-ant" aria-label="Anterior">❮</button>
+            <div class="envolve-carrossel">
+                <div class="slides-carrossel" id="slidesCarrossel">
+                    </div>
+            </div>
+            <button class="btn-carrossel btn-prox" aria-label="Próximo">❯</button>
+        </div>
+        <div class="indicadores-carrossel" id="indicadoresCarrossel"></div>
+    </section>
+
+    <section id="secao-jogos" class="secao-jogos">
+        <h2 class="titulo-secao">Detalhes dos Jogos</h2>
+        <div class="grade-jogos" id="gradeJogos">
+            </div>
+    </section>
+
+    <section class="secao-estatisticas">
+        <h2 class="titulo-secao">Estatísticas da Coleção</h2>
+        <div class="caixa-estatisticas" id="caixaEstatisticas">
+            </div>
+    </section>
+
+    <section class="secao-busca">
+        <h2 class="titulo-secao">Buscar Jogos</h2>
+        <div class="caixa-busca">
+            <input type="text" id="entradaBusca" placeholder="Digite o nome do jogo..." class="entrada-busca">
+            <div class="botoes-filtro">
+                <button class="btn-filtro ativo" data-plataforma="all">Todos</button>
+                <button class="btn-filtro" data-plataforma="PC">PC</button>
+                <button class="btn-filtro" data-plataforma="PlayStation">PlayStation</button>
+                <button class="btn-filtro" data-plataforma="Xbox">Xbox</button>
+            </div>
+        </div>
+        <div class="resultados-busca" id="resultadosBusca">
+            </div>
+    </section>
+    <script src="app.js"></script>
+</body>
+</html>
