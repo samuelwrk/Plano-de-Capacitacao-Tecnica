@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games Showcase - Backlog de Jogos</title>
+    
+    <link rel="stylesheet" href="styles.css">
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+
+    <header class="cabecalho">
+        <nav class="barra-nav">
+            <div class="logotipo">Portfólio de Jogos</div>
+            <ul class="links-nav">
+                <li><a href="#carrossel">Início</a></li>
+                <li><a href="#secao-jogos">Jogos</a></li>
+                <li><a href="#secao-backlog">Meu Backlog</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="carrossel" class="destaque">
+        <div class="caixa-carrossel">
+            <button class="btn-carrossel btn-ant" aria-label="Anterior">❮</button>
+            <div class="envolve-carrossel">
+                <div class="slides-carrossel" id="slidesCarrossel"></div>
+            </div>
+            <button class="btn-carrossel btn-prox" aria-label="Próximo">❯</button>
+        </div>
+        <div class="indicadores-carrossel" id="indicadoresCarrossel"></div>
+    </section>
+
+    <section id="secao-jogos" class="secao-jogos">
+        <h2 class="titulo-secao">Detalhes dos Jogos</h2>
+        <div class="grade-jogos" id="gradeJogos"></div>
+    </section>
+
+    <section class="secao-estatisticas">
+        <h2 class="titulo-secao">Estatísticas da Coleção</h2>
+        <div class="caixa-estatisticas" id="caixaEstatisticas"></div>
+    </section>
+
+    <section class="secao-busca">
+        <h2 class="titulo-secao">Buscar Jogos</h2>
+        <div class="caixa-busca">
+            <input type="text" id="entradaBusca" placeholder="Digite o nome do jogo..." class="entrada-busca">
+            <div class="botoes-filtro">
+                <button class="btn-filtro ativo" data-plataforma="all">Todos</button>
+                <button class="btn-filtro" data-plataforma="PC">PC</button>
+                <button class="btn-filtro" data-plataforma="PlayStation">PlayStation</button>
+                <button class="btn-filtro" data-plataforma="Xbox">Xbox</button>
+            </div>
+        </div>
+        <div class="resultados-busca" id="resultadosBusca"></div>
+    </section>
+
+    <section id="secao-backlog" class="secao-backlog">
+        <h2 class="titulo-secao">Meu Backlog de Jogos</h2>
+        <div id="raiz-backlog"></div>
+    </section>
+
+    <script src="app.js"></script>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        /**
+         * Componente: ListaBacklog
+         * Descrição: Gerencia uma lista de desejos de jogos com persistência no navegador.
+         */
+        function ListaBacklog() {
+            // Estado para a lista de jogos, inicializado com dados do LocalStorage
+            const [jogos, setJogos] = useState(() => {
+                const salvo = localStorage.getItem('backlog-jogos');
+                return salvo ? JSON.parse(salvo) : [];
+            });
+
+            const [novoJogo, setNovoJogo] = useState("");
+            const [filtro, setFiltro] = useState('todos');
+
+            // Atualiza o LocalStorage sempre que a lista de jogos mudar
+            useEffect(() => {
+                localStorage.setItem('backlog-jogos', JSON.stringify(jogos));
+            }, [jogos]);
+
+            const adicionarJogo = (e) => {
+                e.preventDefault();
+                if (!novoJogo.trim()) return;
+
+                const jogo = {
+                    id: Date.now(),
+                    nome: novoJogo.trim(),
+                    jogado: false,
+                    data: new Date().toLocaleDateString('pt-BR')
+                };
+
+                setJogos([...jogos, jogo]);
+                setNovoJogo("");
+            };
+
+            const alternarStatus = (id) => {
+                setJogos(jogos.map(jogo =>
+                    jogo.id === id ? { ...jogo, jogado: !jogo.jogado } : jogo
+                ));
+            };
+
+            const removerJogo = (id) => {
+                if(window.confirm("Deseja remover este jogo?")) {
+                    setJogos(jogos.filter(jogo => jogo.id !== id));
+                }
+            };
+
+            // Lógica de filtragem
+            const jogosFiltrados = jogos.filter(jogo => {
+                if (filtro === 'pendentes') return !jogo.jogado;
+                if (filtro === 'jogados') return jogo.jogado;
+                return true;
+            });
+
+            // Cálculos para o Painel
+            const totalJogos = jogos.length;
+            const jogosJogados = jogos.filter(j => j.jogado).length;
+            const jogosPendentes = totalJogos - jogosJogados;
+
+            return (
+                <div className="backlog-app">
+                    {/* Painel de Indicadores */}
+                    <div className="backlog-header">
+                        <div className="backlog-stats">
+                            <span className="stat-item"><strong>{totalJogos}</strong> Total</span>
+                            <span className="stat-item stat-ativas"><strong>{jogosPendentes}</strong> Pendentes</span>
+                            <span className="stat-item stat-completas"><strong>{jogosJogados}</strong> Jogados</span>
+                        </div>
+                    </div>
+
+                    {/* Formulário de Inclusão */}
+                    <form onSubmit={adicionarJogo} className="backlog-form">
+                        <input
+                            type="text"
+                            value={novoJogo}
+                            onChange={(e) => setNovoJogo(e.target.value)}
+                            placeholder="Nome do jogo que quer jogar..."
+                            className="backlog-input"
+                        />
+                        <button type="submit" className="backlog-btn-add">Adicionar</button>
+                    </form>
+
+                    {/* Filtros de Visualização */}
+                    <div className="backlog-filtros">
+                        {['todos', 'pendentes', 'jogados'].map(tipo => (
+                            <button
+                                key={tipo}
+                                className={`btn-filtro ${filtro === tipo ? 'ativo' : ''}`}
+                                onClick={() => setFiltro(tipo)}
+                            >
+                                {tipo.charAt(0).toUpperCase() + tipo.slice(1)}
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* Listagem de Itens */}
+                    {jogosFiltrados.length === 0 ? (
+                        <div className="backlog-vazio">
+                            <p>Sua lista está vazia nesta categoria.</p>
+                        </div>
+                    ) : (
+                        <ul className="backlog-list">
+                            {jogosFiltrados.map(jogo => (
+                                <li key={jogo.id} className={`backlog-item ${jogo.jogado ? 'completa' : ''}`}>
+                                    <div className="backlog-checkbox">
+                                        <input
+                                            type="checkbox"
+                                            checked={jogo.jogado}
+                                            onChange={() => alternarStatus(jogo.id)}
+                                            id={`jogo-${jogo.id}`}
+                                        />
+                                        <label htmlFor={`jogo-${jogo.id}`} className="checkbox-custom"></label>
+                                    </div>
+
+                                    <div className="backlog-texto" onClick={() => alternarStatus(jogo.id)}>
+                                        <span className="texto-tarefa">{jogo.nome}</span>
+                                        <span className="data-tarefa">Adicionado em: {jogo.data}</span>
+                                    </div>
+
+                                    <div className="backlog-actions">
+                                        <button onClick={() => removerJogo(jogo.id)} className="btn-excluir" title="Remover">
+                                            🗑
+                                        </button>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
+            );
+        }
+
+        // Inicialização do React 18
+        const raiz = ReactDOM.createRoot(document.getElementById('raiz-backlog'));
+        raiz.render(<ListaBacklog />);
+    </script>
+</body>
+</html>
